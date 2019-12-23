@@ -1,3 +1,4 @@
+#Data fields used for the item class
 class Item:
     def __init__(self, number, name, price, taxed, tax):
         self.number = number
