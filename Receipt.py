@@ -11,18 +11,19 @@ class Receipt:
 
     # Initialize the receipt array
     def __init__(self, member):
-        receipt = {self.member.memNumber}
-        receipt.append("**NO ITEMS**")
+        self.receipt = []
+        self.receipt.append(member)
+        self.receipt.append("**NO ITEMS**")
 
     # Adds an item to the receipt array
-    def addItem(self, item):
+    def add_item(self, item):
         self.receipt.remove("**NO ITEMS**")
         self.receipt.append(item)
 
     # Removes an item from the receipt array
-    def voidItem(self, item):
+    def void_item(self, item):
         k = self.receipt.index(item)
-        if k == None:
+        if k is None:
             print("No item found")
         else:
             self.receipt.remove(item)
@@ -36,13 +37,13 @@ class Receipt:
             return soft_receipt
 
     # Calculates the final total price of the order with tax and returns the final receipt as a string
-    def finalTotal(self, receipt):
+    def final_total(self, receipt):
         # initializes totals as 0
         total_price = 0
         total_tax = 0
         total_after_tax = 0
-        total_receipt = "________________"
-        total_receipt = "|ITEM     PRICE|\n"
+        total_receipt = "________________\n"
+        total_receipt += "|ITEM     PRICE|\n"
 
         # Finds the total price of the current order before tax
         for x in self.receipt:

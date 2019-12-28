@@ -24,9 +24,9 @@ class Membership:
         expiry_string = self.expiry.strftime("%m/%d/%y")
         mem_number_string = str(self.memNumber)
         mem_info = ""
-        with open ("Members.txt", "a+") as preMembers:
+        with open("Members.txt", "a+") as preMembers:
             # Checks to see if the new member already exists on file, and if they do, return an error message
-            with open ("Members.txt") as preCheck:
+            with open("Members.txt") as preCheck:
                 if self.name in preCheck.read():
                     print("Error: Name exists within database, cannot make a new membership")
                 else:
