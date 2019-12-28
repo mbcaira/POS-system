@@ -1,45 +1,33 @@
-#Global tax rate
+# Global tax rate
 taxRate = 1.13
 
-#Data fields used for the item class
-class Item:
-    def __init__(self, number, name, price, taxed):
-        self.number = number
-        self.name = name
-        self.price = price
-        self.taxed = taxed
-        if self.taxed == "N":
-            self.tax = 0
-        else:
-            self.tax = taxRate*self.price
-    
-    #Method to pull item data from the inventory list and make an item object
-    def checkInventory(self):
-        inv = open("inventory.txt", "r")
-        inventory = []
-        for i in inv:
-            inventory.append(i)
-        #Removes text headers
-        inventory.pop(0)
-        
-        #Search up item input using item number and if it exists on the inventory list, make an item object
-        if self.number in inventory:
-            
-            #Gather item info from inventory array if the item exists
-            number = self.number
-            itemPos = inventory.index(number)
-            name = inventory[itemPos][9:19]
-            price = inventory[itemPos][25:30]
-            taxed = inventory[itemPos][33]
 
-            memberItem = Item(number, name, price, taxed)
-            return(memberItem)
+# Data fields used for the item class
+class Item:
+    def __init__(self, info):
+        self.number = info[0:4]
+        self.intNumber = int(self.number)
+        self.name = info[8:19]
+        self.price = info[24:30]
+        self.intPrice = float(self.price)
+        self.taxed = info[32]
+        if self.taxed == "N":
+            self.tax = 0.0
+        else:
+            self.tax = taxRate * self.intPrice
+
+    # Method to pull item data from the inventory list and make an item object
+    def check_inventory(number, items):
+        # Search up item input using item number and if it exists on the inventory list, make an item object
+        for i in items:
+            if i.intNumber == number:
+                return i
         else:
             print("ITEM NOT FOUND")
 
-            
 
 
-    
 
-        
+
+
+
