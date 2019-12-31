@@ -45,9 +45,9 @@ while in_transaction is True:
         in_transaction = False
 
     else:
+        # Gives cashier the option to sign up a new member
         print("Error, membership does not exist. Would you like to sign them up? (Y/N): ")
-        sign_up = input()
-        sign_up.upper()
+        sign_up = input().upper()
         if sign_up is "Y":
             print("Please enter the member's name: ")
             member_name = input()
