@@ -30,8 +30,9 @@ while in_transaction is True:
 
     # Checking if the inputted membership number corresponds to a membership on file
     membership_number_string = str(membership_number)
-    if membership_number_string in members.read():
-
+    member_database = members.read()
+    if membership_number_string in member_database:
+        membership_number_string = str(membership_number)
         # Initialize receipt
         member_receipt = Receipt.Receipt(membership_number)
         print("Please enter an item number: ")
@@ -48,21 +49,16 @@ while in_transaction is True:
         # Gives cashier the option to sign up a new member
         print("Error, membership does not exist. Would you like to sign them up? (Y/N): ")
         sign_up = input().upper()
-        if sign_up is "Y":
+        if sign_up == "Y":
             print("Please enter the member's name: ")
             member_name = input()
             member_name.lower().capitalize()
             newMem = Membership.Membership(member_name)
-            membership_number_string = newMem.memNumber
+            membership_number = newMem.memNumber
 
-        elif sign_up is "N":
+        elif sign_up == "N":
             print("Transaction completed, have a nice day!\n")
             in_transaction = False
 
         else:
             print("Error, invalid selection\n")
-
-
-
-
-
