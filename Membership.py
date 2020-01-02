@@ -4,18 +4,16 @@ from datetime import *
 today = date.today()
 
 # Initializes membership numbers
-membershipNumbers = 1000001
-
-# Holds all the members from the current session
-Members = []
+membershipNumbers = open("MemberNumbers.txt", "r")
+current_num = int(membershipNumbers.read())
+membershipNumbers.close()
 
 
 class Membership:
     
     def __init__(self, name):
-        global membershipNumbers
-        self.memNumber = membershipNumbers
-        membershipNumbers += 1  # Incremement the global membership number for this session
+        global current_num
+        self.memNumber = current_num
         self.name = name
         self.expiry = today
         self.expired = False
@@ -33,8 +31,12 @@ class Membership:
                     mem_info = (mem_info + mem_number_string + " " + self.name + " " + expiry_string + "\n")
                     preMembers.write(mem_info)
 
-    # Checks if the membership is expired or not
+        # Updates what the next membership number will be for the next session
+        next_num = current_num + 1
+        with open("MemberNumbers.txt", "w") as memberNumbers:
+            memberNumbers.write(str(next_num))
 
+    # Checks if the membership is expired or not
     def member_check(self):
         if self.expiry < today:
             self.expired = True
