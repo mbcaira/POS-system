@@ -47,7 +47,7 @@ class Receipt:
             final_receipt += ("{0:<20} {1:>10}\n".format(item.name, str(item.floatPrice)))
             total_tax += item.tax
             total += total_tax + item.floatPrice
-        print("TAX: %26.2f" % (self.total_tax))
-        print("TOTAL: %24.2f" % (self.total))
+        final_receipt += ("\nTAX: %26.2f\n" % (self.total_tax))
+        final_receipt += ("TOTAL: %24.2f\n" % (self.total))
         final_receipt += str(date.today())
         return final_receipt
