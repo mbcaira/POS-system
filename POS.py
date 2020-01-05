@@ -58,14 +58,14 @@ while in_transaction is True:
                     user_in = int(item)
                     valid_selection = True
                 except ValueError:
-                    print("Incorrect selection, try again!")
+                    pass
 
                 try:
                     user_in = str(item).upper()
                     if user_in == "N" or user_in == "VOID":
                         valid_selection = True
                 except ValueError:
-                    print("Incorrect selection, try again!")
+                    pass
 
             # Prints the receipt of the order
             if item.upper() == "N":
@@ -73,6 +73,7 @@ while in_transaction is True:
                 print(final_receipt)
                 print("Thank you for shopping, have a nice day!")
                 end_of_order = True
+                in_transaction = False
 
             elif item.upper() == "VOID":
                 print("Enter an item number to void: ")
