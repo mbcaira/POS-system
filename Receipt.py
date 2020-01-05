@@ -1,62 +1,53 @@
-import Membership
-import Item
 from datetime import *
 
-today = date.today()
-
-
-# Receipt class that summarizes the member's order
 
 class Receipt:
+    def __init__(self, member_number):
+        # Initialize the receipt as a list for future modifications (adding and removing items)
+        self.member_items = []
+        self.member_number = member_number
+        self.total = 0.0
+        self.total_tax = 0.0
 
-    # Initialize the receipt array
-    def __init__(self, member):
-        self.receipt = []
-        self.receipt.append(member)
-        self.receipt.append("**NO ITEMS**")
-
-    # Adds an item to the receipt array
+    # Adds items to the member's receipt and displays the current total with tax
     def add_item(self, item):
-        self.receipt.remove("**NO ITEMS**")
-        self.receipt.append(item)
+        self.member_items.append(item)
+        item_price = item.floatPrice
+        self.total_tax += item.tax
+        self.total += item_price + item.tax
+        print("{0:<20} {1:>10}".format(item.name, str(item.floatPrice)))
+        print("TAX: %26.2f" % (self.total_tax))
+        print("TOTAL: %24.2f" % (self.total))
 
-    # Removes an item from the receipt array
-    def void_item(self, item):
-        k = self.receipt.index(item)
-        if k is None:
-            print("No item found")
+    # Removes items from the receipt and displays the current total with tax
+    def remove_item(self, item):
+        if item in self.member_items:
+            self.member_items.remove(item)
+            self.total_tax -= item.tax
+            self.total -= item.floatPrice
+            print("REMOVED")
+            print("{0:<20} {1:>10}".format(item.name, str(item.floatPrice)))
+            print("TAX: %26.2f" % (self.total_tax))
+            print("TOTAL: %24.2f" % (self.total))
+
+        elif len(self.member_items) == 0:
+            print("No items in the receipt")
+
         else:
-            self.receipt.remove(item)
+            print("Item does not exist in member's receipt")
 
-    # Calculates the total cost of the order before tax at the current point and returns the receipt as a string
-    def soft_total(self, receipt):
-        soft_total = 0
-        for x in self.receipt:
-            soft_total += self.receipt[x].price
-            soft_receipt = ("TOTAL:   " + soft_total)
-            return soft_receipt
-
-    # Calculates the final total price of the order with tax and returns the final receipt as a string
-    def final_total(self, receipt):
-        # initializes totals as 0
-        total_price = 0
-        total_tax = 0
-        total_after_tax = 0
-        total_receipt = "________________\n"
-        total_receipt += "|ITEM     PRICE|\n"
-
-        # Finds the total price of the current order before tax
-        for x in self.receipt:
-            total_receipt += (self.receipt[x] + "          " + self.receipt[x].price + "\n")
-            total_price += self.receipt[x].price
-        total_receipt += ("| TOTAL:    " + total_price + " |\n")
-
-        # Finds the total tax applicable to the current order
-        for y in self.receipt:
-            total_tax += self.receipt[y].tax
-
-        total_receipt += ("| TAX:       " + total_tax + "|\n")
-        total_after_tax = total_tax + total_price
-        total_receipt += ("| TOTAL:    " + total_after_tax + "|\n")
-        total_receipt += "|______________|"
-        return total_receipt
+    # Finalizes the receipt string and returns it to the POS
+    def finalize_receipt(self):
+        # Initialize the receipt string
+        final_receipt = "             RECEIPT\nMembership Number: " + (self.member_number + "\n")
+        total = 0.0
+        total_tax = 0.0
+        final_receipt += "ITEMS:\n"
+        for item in self.member_items:
+            final_receipt += ("{0:<20} {1:>10}\n".format(item.name, str(item.floatPrice)))
+            total_tax += item.tax
+            total += total_tax + item.floatPrice
+        print("TAX: %26.2f" % (self.total_tax))
+        print("TOTAL: %24.2f" % (self.total))
+        final_receipt += str(date.today())
+        return final_receipt
