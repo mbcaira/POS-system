@@ -16,17 +16,6 @@ class Item:
         else:
             self.tax = taxRate * self.floatPrice
 
-    # Method to pull item data from the inventory list and make an item object
-    def check_inventory(number, items):
-        # Search up item input using item number and if it exists on the inventory list, make an item object
-        for i in items:
-            if i.intNumber == number:
-                return i
-        else:
-            print("ITEM NOT FOUND")
-
-
-
 
 
 
