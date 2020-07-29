@@ -15,8 +15,3 @@ class Item:
             self.tax = 0.00
         else:
             self.tax = taxRate * self.floatPrice
-
-
-
-
-
